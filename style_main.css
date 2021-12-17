@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Shalimar&display=swap');
+
+.main-container{
+  background-image: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  overflow: hidden;
+  background-size: 400% 400%;
+  position: relative;
+  animation: change 10s ease-in-out infinite;
+  color: #fff;
+
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Shalimar', cursive;
+}
+
+.main-header{
+  font-size: 100px;
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  transform: translateY(400px) rotate(10deg) scale(1.5) skew(10deg);
+}
+
+.main-button{
+  display: inline-block;
+  z-index: 5;
+  transform: translateY(500px);
+  transition: 1s;
+  height: 42px;
+  animation-name: pulsar;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  border-radius: 100%;
+}
+
+.main-button:hover{
+  transform: scale(2) translateY(250px);
+  transition: 1s;
+  box-shadow: 0 0 10px black;
+  height: 42px;
+  border-radius: 100%;
+}
+
+@keyframes pulsar{
+  0%{
+    /* opacity: 1; */
+    box-shadow: 0 0 5px yellow;
+  }
+  50%{
+    /* opacity: 0; */
+    box-shadow: 0 0 50px yellow;
+  }
+  100%{
+    /* opacity: 1; */
+    box-shadow: 0 0 5px yellow;
+  }
+}
+
+
+@keyframes wave{
+  0%{
+    transform: translate(0,0);
+  }
+  50%{
+    transform: translate(0,-50px);
+  }
+  100%{
+    transform: translate(0,0);
+  }
+}
+
+.My{
+  display: inline-block;
+  animation-name: wave;
+  animation-duration:3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in ;
+}
+
+.Gaming{
+  display: inline-block;
+  animation-delay: 0.5s;
+  animation-name: wave;
+  animation-duration:3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out ;
+}
+
+.Hub{
+  display: inline-block;
+  animation-delay: 1s;
+  animation-name: wave;
+  animation-duration:3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out ;
+}
+
+@keyframes change{
+  0%{
+    background-position: 0 50%
+  }
+  50%{
+    background-position: 100% 50%
+  }
+  100%{
+    background-position: 0 50%
+  }
+}
