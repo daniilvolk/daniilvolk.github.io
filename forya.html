@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Секретный сайт для Самиры</title>
+  <style>
+    /* Global styles */
+    body {
+      margin: 0;
+      padding: 0;
+      /* Use a clean sans-serif typeface instead of a decorative script */
+      font-family: 'Trebuchet MS', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      /* Soften the overall feel with a cooler blue gradient */
+      background: radial-gradient(circle at center, #f0f4f7 0%, #dfe7f1 35%, #c2d1e0 65%, #a9bcd0 100%);
+    }
+
+    #backgroundHearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+  
+    /* Secret code card */
+    #codePage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      padding: 40px 50px;
+      z-index: 1;
+      width: 300px;
+      text-align: center;
+    }
+
+    #codePage h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      color: #6c91c2;
+    }
+
+    #secretInput {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.2rem;
+      border: 2px solid #8aaad4;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    #secretInput:focus {
+      border-color: #6c91c2;
+    }
+
+    #enterBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      color: #fff;
+      background-color: #6c91c2;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #enterBtn:hover {
+      background-color: #5273a9;
+    }
+
+    #errorMessage {
+      margin-top: 15px;
+      color: #c0392b;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* Main page */
+    #mainPage {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      padding-top: 80px;
+      box-sizing: border-box;
+      text-align: center;
+      color: #374a70;
+    }
+
+    #mainPage h1 {
+      margin: 0 20px 30px;
+      font-size: 2.2rem;
+      color: #374a70;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #dfe7f1;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #374a70;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .tab-btn:hover {
+      background-color: #c2d1e0;
+      transform: translateY(-3px);
+    }
+
+    .tab-btn.active {
+      background-color: #6c91c2;
+      color: #fff;
+    }
+
+    .content {
+      display: none;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      /* Slightly more opaque panel for readability */
+      background: rgba(255,255,255,0.8);
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .content.show {
+      display: block;
+    }
+
+    /* specific content styling */
+    #letter p {
+      white-space: pre-wrap;
+      font-size: 1.4rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    #notes ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #notes li {
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+      background: #e6eefd;
+      padding: 8px 12px;
+      border-radius: 10px;
+    }
+
+    #gallery img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    #music audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="backgroundHearts"></div>
+  <!-- Secret code page -->
+  <div id="codePage">
+    <h2>Введите секретный код</h2>
+    <input type="text" id="secretInput" placeholder="Секретный код" />
+    <button id="enterBtn">Войти</button>
+    <div id="errorMessage">Неверный код, попробуй ещё раз.</div>
+  </div>
+  <!-- Main content page -->
+  <div id="mainPage">
+    <h1>Добро пожаловать!</h1>
+    <div class="tabs">
+      <button class="tab-btn" data-target="letter">💌<span style="font-size:0.8rem;margin-top:4px;">Письмо</span></button>
+      <button class="tab-btn" data-target="music">🎵<span style="font-size:0.8rem;margin-top:4px;">Музыка</span></button>
+      <button class="tab-btn" data-target="notes">📝<span style="font-size:0.8rem;margin-top:4px;">Заметки</span></button>
+      <button class="tab-btn" data-target="gallery">📷<span style="font-size:0.8rem;margin-top:4px;">Галерея</span></button>
+    </div>
+    <div id="letter" class="content">
+      <p>Чтож Госпожа,
+
+      От всего сердца хочу сказать, что ты делаешь мою жизнь ярче каждый день. Спасибо за  поддержку и доброту. Этот сайт — маленький способ показать, как сильно я ценю тебя ну и наше общение.
+
+      Искренне
+      Даниил</p>
+    </div>
+    <div id="music" class="content">
+      <p>Включи любимую песню и наслаждайся моментом!</p>
+      <audio controls>
+        <source src="" type="audio/mpeg">
+        Ваш браузер не поддерживает элемент audio.
+      </audio>
+      <p style="font-size:1rem;margin-top:10px;">(Здесь можно добавить ссылку на любимую мелодию или файл.)</p>
+    </div>
+    <div id="notes" class="content">
+      <p>Несколько причин, почему я тебя Ценю:</p>
+      <ul>
+        <li>Наше приятное общение</li>
+        <li>Твое Пониание</li>
+        <li>Сообщения доброе утро, как спалось</li>
+        <li>То, как ты делаешь каждый день особенным и радостным </li>
+      </ul>
+    </div>
+    <!-- <div id="gallery" class="content">
+      <p>Моменты, которые хочу переживать снова и снова:</p>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAMAAAAJixKkAAAAUVBMVEVHcEz///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8E4wQkAAAAMnRSTlMAICAgICAQEBAgICAgIDAwMEBAQECAgICAgICAgICAgICAgICAgICAgICAgIDA+E2IdAAAEK0lEQVR4nO3c2Y4bRxQFYA1pWXZ3kpgEHf//L+Wh8yN60zOvu7d0mwsRxtN4pJXkmu9fnrxzz/+nX4BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMCvfoba5Jom/nx+6uWxTeLrVlwLdfH5tpxXPdE3gXVZcbxebrg9/7f6zbNCl5Hz+F6f3GHnmvX4/T4b9TdlveI5kBfv92D+88i8q8kZ3z67I+Erp+vT6acmnZE9f9YnJbny9GMRDN05iPc6Sv0TR0jAXqQRk/DhCqJGp6JBLMY0DKWMTTcYwN7wjrOHTSzHSeIvG7/OIwbaXrxV5qRliXIUVp07c418X5Z89Oio3bMVryz1xYzybLZjezFfHlna4xLkbh1r2sy4yXkshYWc5mjGxgXvHhmeVebOSfHSWmtHOz7Ghlb6vX5Mm7bLZ83FfuSbtm7b7fTxJuNv58p3tfCqMbMW5WSnf6GGYrMsYqiuT1744ibtMXuZaf3ld+pvNZ8mGPXBrvjRtFw88Vk7XxZcNy/l9/0chni/Dt9Nl+pjPxeHZt4uYy7YZXdxjMfplX13idp2GM7Gc4bjsR3uXdzq5jt24lW18+HLZ+6fYUMjbPuMZsvT1Jbrcu+N67ePmRZ88OmOHafXbT6as/75t32rlN93m7mYmOaVXrsi3kRMzKTBu6yi/WUf1uN00CfbwKfmhVl/tDHZc9rzvtqt5Gkybp5trERuN69fvX/dxt9tPZg92wMs5vZ0a/pTPq30F4y2DL52OW/r7pOs3fyr2oybySldrNuvV9fb4T2ffUulnlW09Hq8qsTsPU6C5hJ9c6uFNOGG2bw01M2a6NLdw5w22p371/nImhzJS1c3n1Lk29k09XkTz5z1ZOwkO2X2+1nzl375rW1nDvZt/F36Nvmc5kvdn2+y9svfM32af0zGJnjPjtvu2ZRifb9YTNkZybe9NwYw7177lPLbYu5uO//W7yTOSl80NTmXeH6bJoOc9tfe7M0UYm8zGv9r4yyb+fbfM3r5lT7zsmNaZkO6Ey5iu55Tgya35TqmtOYSX6bJ9+SXpo43xM4wnsMX8CWsaSo7Xj3pbys93yTMObXdW4TIwrxRqmtPsxX+QYYv9JrsgtT2Km1+b7Mwv3cptPpuOXydz5IvOAXX8zT9bX99t+ibRHyks3k3eagDX1FwyyfRmlbGvWRm7Rz4Nn+jcVs836yZ8nW83i3U2mzSxmmyQZUXF+DwPrrznq+w9P3WSvfqJW1QvObdbvjXrzi2SfNcl68xO93pTBzmx/Nm+n29m0y1Ca/k2tn/zz5rvG/snHS+t7/b/mGs8uucxXrbSPu0ChznLdp/3pPdWTp47q8nmhvg76HyVnvt/NvfR6DztKfsLm5vNvpnutBGnjEoPmOXbX13qnf6UfcvvXzv6mo1B1oQYRt1e/vDblZbzvcWWt66r826rnL09+OXz8UWHnM0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAv+DfBK+KoUJ7WgAAAABJRU5ErkJggg==" alt="Placeholder image" />
+      <p style="font-size:1rem;">(Здесь можно разместить ваши фотографии или изображения, закодировав их в Base64 или загрузив отдельно.)</p>
+    </div> -->
+  </div>
+
+  <script>
+    // Set your secret code here. The comparison is case-insensitive.
+    const secretCode = 'Samir';
+
+    // Elements
+    const codePage = document.getElementById('codePage');
+    const mainPage = document.getElementById('mainPage');
+    const secretInput = document.getElementById('secretInput');
+    const enterBtn = document.getElementById('enterBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.content');
+
+    // Function to check the entered code
+    function checkCode() {
+      const val = secretInput.value.trim().toLowerCase();
+      if (val === secretCode.toLowerCase()) {
+        // Hide code page and show main content
+        codePage.style.display = 'none';
+        mainPage.style.display = 'block';
+        errorMessage.style.display = 'none';
+        // Activate first tab by default
+        activateTab(tabButtons[0]);
+      } else {
+        errorMessage.style.display = 'block';
+        // Shake input field to indicate error
+        codePage.classList.remove('shake');
+        // trigger reflow to restart animation
+        void codePage.offsetWidth;
+        codePage.classList.add('shake');
+      }
+    }
+
+    // Tab activation
+    function activateTab(btn) {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const targetId = btn.getAttribute('data-target');
+      contents.forEach(section => {
+        if (section.id === targetId) {
+          section.classList.add('show');
+        } else {
+          section.classList.remove('show');
+        }
+      });
+    }
+
+    // Event listeners
+    enterBtn.addEventListener('click', checkCode);
+    secretInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        checkCode();
+      }
+    });
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn));
+    });
+
+    // Heart background creation
+    function createBackgroundHearts() {
+      const container = document.getElementById('backgroundHearts');
+      // Use fewer hearts to reduce the over-the-top romantic feeling
+      const totalHearts = 10;
+      for (let i = 0; i < totalHearts; i++) {
+        const heart = document.createElement('span');
+        heart.classList.add('bg-heart');
+        heart.innerText = '❤';
+        // random horizontal position
+        const left = Math.random() * 100;
+        // start slightly below the bottom
+        const top = 100 + Math.random() * 20;
+        heart.style.left = `${left}%`;
+        heart.style.top = `${top}vh`;
+        // random size
+        const size = 20 + Math.random() * 40;
+        heart.style.fontSize = `${size}px`;
+        // random duration and delay
+        const duration = 20000 + Math.random() * 15000; // 20-35 seconds
+        const delay = Math.random() * 10000; // up to 10 seconds
+        heart.style.animationDuration = `${duration}ms`;
+        heart.style.animationDelay = `${delay}ms`;
+        container.appendChild(heart);
+      }
+    }
+
+    // Add shake animation to code card when incorrect code entered
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+        20% { transform: translate(-50%, -50%) translateX(-10px); }
+        40% { transform: translate(-50%, -50%) translateX(10px); }
+        60% { transform: translate(-50%, -50%) translateX(-10px); }
+        80% { transform: translate(-50%, -50%) translateX(10px); }
+      }
+      .shake {
+        animation: shake 0.6s ease;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initialize hearts on load
+    createBackgroundHearts();
+  </script>
+</body>
+</html>
