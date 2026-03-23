@@ -299,31 +299,31 @@
     });
 
     // Heart background creation
-    function createBackgroundHearts() {
-      const container = document.getElementById('backgroundHearts');
+   // function createBackgroundHearts() {
+      //const container = document.getElementById('backgroundHearts');
       // Use fewer hearts to reduce the over-the-top romantic feeling
-      const totalHearts = 10;
-      for (let i = 0; i < totalHearts; i++) {
-        const heart = document.createElement('span');
-        heart.classList.add('bg-heart');
-        heart.innerText = '❤';
+     // const totalHearts = 10;
+     // for (let i = 0; i < totalHearts; i++) {
+      //  const heart = document.createElement('span');
+      //  heart.classList.add('bg-heart');
+      //  heart.innerText = '❤';
         // random horizontal position
-        const left = Math.random() * 100;
+      //  const left = Math.random() * 100;
         // start slightly below the bottom
-        const top = 100 + Math.random() * 20;
-        heart.style.left = `${left}%`;
-        heart.style.top = `${top}vh`;
+      //  const top = 100 + Math.random() * 20;
+      //  heart.style.left = `${left}%`;
+      //  heart.style.top = `${top}vh`;
         // random size
-        const size = 20 + Math.random() * 40;
-        heart.style.fontSize = `${size}px`;
+      //  const size = 20 + Math.random() * 40;
+      //  heart.style.fontSize = `${size}px`;
         // random duration and delay
-        const duration = 20000 + Math.random() * 15000; // 20-35 seconds
-        const delay = Math.random() * 10000; // up to 10 seconds
-        heart.style.animationDuration = `${duration}ms`;
-        heart.style.animationDelay = `${delay}ms`;
-        container.appendChild(heart);
-      }
-    }
+      //  const duration = 20000 + Math.random() * 15000; // 20-35 seconds
+      //  const delay = Math.random() * 10000; // up to 10 seconds
+      //  heart.style.animationDuration = `${duration}ms`;
+      //  heart.style.animationDelay = `${delay}ms`;
+       // container.appendChild(heart);
+     // }
+   // }
 
     // Add shake animation to code card when incorrect code entered
     const style = document.createElement('style');
